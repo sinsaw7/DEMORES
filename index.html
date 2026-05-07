@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>黛茂诗 · 幸运大转盘</title>
+    <title>DEMORES黛茂诗 · 幸运大转盘</title>
     <style>
         :root {
             --bg: #f6faf6;
@@ -485,7 +485,7 @@
             color: #1b5e20;
         }
 
-        /* 地址与收集表区域 */
+        /* 地址表单 */
         .address-section {
             text-align: left;
             margin-top: 12px;
@@ -500,33 +500,60 @@
             text-align: center;
             font-weight: 600;
         }
-        .btn-collect-link {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+        .form-group {
+            margin-bottom: 12px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: #3d5a3f;
+            margin-bottom: 4px;
+            font-weight: 500;
+        }
+        .form-group input,
+        .form-group textarea {
             width: 100%;
-            padding: 14px;
+            padding: 10px 12px;
+            border: 1px solid #d0e0d2;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+            background: #fafdfa;
+            color: #2c3e2d;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #66bb6a;
+            box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.15);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 12px;
             background: linear-gradient(135deg, #43a047, #2e7d32);
             color: #fff;
             border: none;
             border-radius: 30px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.95rem;
             letter-spacing: 0.05em;
             cursor: pointer;
             transition: all 0.25s;
-            text-decoration: none;
-            margin-top: 8px;
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.25);
+            margin-top: 6px;
         }
-        .btn-collect-link:hover {
+        .btn-submit:hover {
             background: linear-gradient(135deg, #4caf50, #388e3c);
-            box-shadow: 0 8px 24px rgba(46, 125, 50, 0.35);
-            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(46, 125, 50, 0.3);
         }
-        .btn-collect-link:active {
-            transform: translateY(0);
+        .btn-submit:disabled {
+            background: #bdbdbd;
+            cursor: not-allowed;
+            box-shadow: none;
         }
         .taobao-link {
             display: inline-block;
@@ -546,19 +573,13 @@
         .taobao-link:hover {
             background: #e55a2b;
         }
-        .collect-hint {
-            font-size: 0.78rem;
-            color: #8aa98d;
+        .submit-success {
+            display: none;
             text-align: center;
-            margin-top: 12px;
-            line-height: 1.5;
-        }
-        .collect-hint span {
-            background: #fef9e7;
-            padding: 2px 8px;
-            border-radius: 4px;
-            color: #b8860b;
+            color: #2e7d32;
             font-weight: 600;
+            margin-top: 10px;
+            font-size: 0.9rem;
         }
 
         @media (max-width: 480px) {
@@ -617,7 +638,7 @@
 <body>
     <div class="main-container">
         <div class="header">
-            <span class="brand-tag">黛茂诗 · 感恩回馈</span>
+            <span class="brand-tag">DEMORES黛茂诗 · 感恩回馈</span>
             <h1>幸运大转盘</h1>
             <p class="subtitle">转动转盘，赢取精美好礼</p>
             <span class="used-message" id="usedMessage">🎉 您已参与过抽奖，每位用户仅限一次</span>
@@ -659,19 +680,23 @@
                 <a href="https://pages.tmall.com/wow/a/act/tmall/dailygroup/16355/16802/wupr?wh_pid=daily-465056&disableNav=YES&status_bar_transparent=true&sellerId=2221164254662&activityId=9e3d40837939418f84f52117e3a32998&toolName=itemCoupon"
                    target="_blank" rel="noopener noreferrer" class="taobao-link">🎁 点此领取淘宝优惠券</a>
             </div>
-            <!-- 特等奖~四等奖：地址收集表 + 自动复制奖品名称 -->
+            <!-- 特等奖~四等奖：飞书机器人地址表单 -->
             <div class="address-section" id="addressSection">
-                <h4>📦 填写收货地址</h4>
-                <p style="font-size:0.85rem;color:#5a7d5c;text-align:center;margin-bottom:8px;">
-                    点击下方按钮将<strong>自动复制奖品名称</strong>，请在打开的收集表中<strong>“中奖奖品”字段粘贴</strong>。
-                </p>
-                <a href="https://doc.weixin.qq.com/forms/ACUAWgdwAA4AegALgYvAOwCNJqrcxSlVf"
-                   target="_blank" rel="noopener noreferrer" class="btn-collect-link" id="btnCollectLink">
-                   📝 打开地址收集表（已自动复制奖品）
-                </a>
-                <p class="collect-hint">
-                    ⚠️ 收集表由<span>腾讯文档</span>提供，提交后我们将在后台统一查看。<br>若误关弹窗，可点击下方“查看领奖详情”重新打开。
-                </p>
+                <h4>📦 填写收货信息</h4>
+                <div class="form-group">
+                    <label for="receiverName">收件人姓名</label>
+                    <input type="text" id="receiverName" placeholder="请输入姓名" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label for="receiverPhone">手机号码</label>
+                    <input type="tel" id="receiverPhone" placeholder="请输入手机号" required autocomplete="tel">
+                </div>
+                <div class="form-group">
+                    <label for="receiverAddress">详细地址</label>
+                    <textarea id="receiverAddress" placeholder="省/市/区+详细地址" required autocomplete="street-address"></textarea>
+                </div>
+                <button class="btn-submit" id="btnSubmitAddress">提交地址</button>
+                <div class="submit-success" id="submitSuccess">✅ 地址已提交，请添加微信领奖！</div>
             </div>
         </div>
     </div>
@@ -692,7 +717,14 @@
             const addressSection = document.getElementById('addressSection');
             const taobaoSection = document.getElementById('taobaoSection');
             const usedMessage = document.getElementById('usedMessage');
-            const btnCollectLink = document.getElementById('btnCollectLink');
+            const receiverName = document.getElementById('receiverName');
+            const receiverPhone = document.getElementById('receiverPhone');
+            const receiverAddress = document.getElementById('receiverAddress');
+            const btnSubmitAddress = document.getElementById('btnSubmitAddress');
+            const submitSuccess = document.getElementById('submitSuccess');
+
+            // ============ 飞书机器人 Webhook ============
+            const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/ddaa38ab-3fb0-4d0f-87b1-b4ffa9b0fd6f';
 
             // ============ Canvas 尺寸 ============
             const CANVAS_SIZE = 500;
@@ -707,11 +739,12 @@
             const cy = CANVAS_SIZE / 2;
             const outerRadius = 200;
             const innerRadius = 100;
-            const centerDiscRadius = 72; // 中间圆盘略小
+            const centerDiscRadius = 72;
 
             // ============ 持久化存储键 ============
-            const STORAGE_USED = 'demoress_lottery_used_v3';
-            const STORAGE_RESULT = 'demoress_lottery_result_v3';
+            const STORAGE_USED = 'demoress_lottery_used_v6';
+            const STORAGE_RESULT = 'demoress_lottery_result_v6';
+            const STORAGE_ADDRESS = 'demoress_address_submitted_v6';
 
             // ============ 奖品数据 ============
             const prizes = [
@@ -735,6 +768,7 @@
             let isSpinning = false;
             let animationId = null;
             let lastPrizeResult = null;
+            let addressSubmitted = false;
 
             // 从本地存储恢复状态
             let hasUsed = localStorage.getItem(STORAGE_USED) === '1';
@@ -743,6 +777,7 @@
                 lastPrizeResult = prizes[savedPrizeIndex];
                 highlightIndex = savedPrizeIndex;
                 currentRotation = getRotationForIndex(savedPrizeIndex);
+                addressSubmitted = localStorage.getItem(STORAGE_ADDRESS) === '1';
             }
 
             function getRotationForIndex(index) {
@@ -1052,13 +1087,26 @@
                 modalPrizeTitle.className = 'modal-prize-title' + (prize.isSpecial ? ' special' : '');
                 modalPrizeDetail.textContent = prize.detail;
 
-                // 根据奖品类型显示不同区域
+                // 重置表单状态
+                receiverName.value = '';
+                receiverPhone.value = '';
+                receiverAddress.value = '';
+                submitSuccess.style.display = 'none';
+                btnSubmitAddress.disabled = false;
+                btnSubmitAddress.textContent = '提交地址';
+
                 if (prize.index === 5) { // 普惠奖
                     addressSection.style.display = 'none';
                     taobaoSection.style.display = 'block';
                 } else {
                     addressSection.style.display = 'block';
                     taobaoSection.style.display = 'none';
+                    // 如果之前已提交地址，恢复状态
+                    if (addressSubmitted) {
+                        btnSubmitAddress.disabled = true;
+                        btnSubmitAddress.textContent = '已提交';
+                        submitSuccess.style.display = 'block';
+                    }
                 }
                 prizeModal.classList.add('active');
             }
@@ -1072,42 +1120,57 @@
                 if (e.target === prizeModal) hidePrizeModal();
             });
 
-            // ============ 自动复制奖品名称并跳转收集表 ============
-            btnCollectLink.addEventListener('click', (e) => {
-                e.preventDefault(); // 阻止立即跳转
+            // ============ 提交地址到飞书群机器人 ============
+            btnSubmitAddress.addEventListener('click', () => {
+                if (addressSubmitted) return;
+                const name = receiverName.value.trim();
+                const phone = receiverPhone.value.trim();
+                const address = receiverAddress.value.trim();
+                if (!name || !phone || !address) {
+                    alert('请完整填写收件人信息');
+                    return;
+                }
+                if (!/^1[3-9]\d{9}$/.test(phone)) {
+                    alert('请输入正确的手机号码');
+                    return;
+                }
+
+                btnSubmitAddress.disabled = true;
+                btnSubmitAddress.textContent = '提交中...';
+
                 const prizeName = lastPrizeResult?.label || '未知奖品';
-                const collectUrl = btnCollectLink.getAttribute('href');
+                const messageText = `🎉 新中奖地址\n奖品：${prizeName}\n姓名：${name}\n手机：${phone}\n地址：${address}\n时间：${new Date().toLocaleString()}`;
 
-                // 尝试复制到剪贴板
-                if (navigator.clipboard && window.isSecureContext) {
-                    navigator.clipboard.writeText(prizeName).then(() => {
-                        alert(`✅ 已自动复制奖品名称「${prizeName}」\n\n请在打开的收集表中，找到“中奖奖品”字段，长按 → 粘贴填入。`);
-                        window.open(collectUrl, '_blank');
-                    }).catch(() => {
-                        fallbackCopy(prizeName, collectUrl);
-                    });
-                } else {
-                    fallbackCopy(prizeName, collectUrl);
-                }
+                fetch(FEISHU_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        msg_type: 'text',
+                        content: {
+                            text: messageText
+                        }
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.code === 0 || data.StatusCode === 0) {
+                        addressSubmitted = true;
+                        localStorage.setItem(STORAGE_ADDRESS, '1');
+                        btnSubmitAddress.textContent = '已提交';
+                        submitSuccess.style.display = 'block';
+                        console.log('地址已发送至飞书群');
+                    } else {
+                        alert('提交失败，请重试');
+                        btnSubmitAddress.disabled = false;
+                        btnSubmitAddress.textContent = '提交地址';
+                    }
+                })
+                .catch(() => {
+                    alert('网络错误，请重试');
+                    btnSubmitAddress.disabled = false;
+                    btnSubmitAddress.textContent = '提交地址';
+                });
             });
-
-            function fallbackCopy(text, url) {
-                // 降级方案：创建临时文本框复制
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed';
-                textarea.style.left = '-9999px';
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    alert(`✅ 已自动复制奖品名称「${text}」\n\n请在打开的收集表中粘贴。`);
-                } catch (err) {
-                    alert(`请手动填写奖品名称：${text}`);
-                }
-                document.body.removeChild(textarea);
-                window.open(url, '_blank');
-            }
 
             function triggerCelebration() {
                 const card = wheelCard;
@@ -1216,8 +1279,8 @@
                 }
             });
 
-            console.log('🌿 黛茂诗幸运大转盘 · 自动复制奖品名称已生效');
-            console.log('📋 收集表链接: https://doc.weixin.qq.com/forms/ACUAWgdwAA4AegALgYvAOwCNJqrcxSlVf');
+            console.log('🌿 DEMORES黛茂诗 幸运大转盘 · 已配置飞书群机器人');
+            console.log('📨 Webhook: ' + FEISHU_WEBHOOK);
         })();
     </script>
 </body>
