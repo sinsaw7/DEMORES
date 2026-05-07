@@ -485,7 +485,7 @@
             color: #1b5e20;
         }
 
-        /* 地址表单与收集表区域 */
+        /* 地址与收集表区域 */
         .address-section {
             text-align: left;
             margin-top: 12px;
@@ -659,15 +659,15 @@
                 <a href="https://pages.tmall.com/wow/a/act/tmall/dailygroup/16355/16802/wupr?wh_pid=daily-465056&disableNav=YES&status_bar_transparent=true&sellerId=2221164254662&activityId=9e3d40837939418f84f52117e3a32998&toolName=itemCoupon"
                    target="_blank" rel="noopener noreferrer" class="taobao-link">🎁 点此领取淘宝优惠券</a>
             </div>
-            <!-- 特等奖~四等奖：地址收集表区域 -->
+            <!-- 特等奖~四等奖：地址收集表 + 自动复制奖品名称 -->
             <div class="address-section" id="addressSection">
                 <h4>📦 填写收货地址</h4>
                 <p style="font-size:0.85rem;color:#5a7d5c;text-align:center;margin-bottom:8px;">
-                    请点击下方按钮，在腾讯文档中填写您的<span style="color:#1b5e20;font-weight:600;">姓名、手机号及详细地址</span>，以便我们为您寄送奖品。
+                    点击下方按钮将<strong>自动复制奖品名称</strong>，请在打开的收集表中<strong>“中奖奖品”字段粘贴</strong>。
                 </p>
                 <a href="https://doc.weixin.qq.com/forms/ACUAWgdwAA4AegALgYvAOwCNJqrcxSlVf"
                    target="_blank" rel="noopener noreferrer" class="btn-collect-link" id="btnCollectLink">
-                    📝 打开地址收集表
+                   📝 打开地址收集表（已自动复制奖品）
                 </a>
                 <p class="collect-hint">
                     ⚠️ 收集表由<span>腾讯文档</span>提供，提交后我们将在后台统一查看。<br>若误关弹窗，可点击下方“查看领奖详情”重新打开。
@@ -678,7 +678,7 @@
 
     <script>
         (function() {
-            // ============ DOM元素 ============
+            // ============ DOM 元素 ============
             const canvas = document.getElementById('wheelCanvas');
             const ctx = canvas.getContext('2d');
             const canvasWrap = document.getElementById('canvasWrap');
@@ -694,7 +694,7 @@
             const usedMessage = document.getElementById('usedMessage');
             const btnCollectLink = document.getElementById('btnCollectLink');
 
-            // ============ Canvas尺寸 ============
+            // ============ Canvas 尺寸 ============
             const CANVAS_SIZE = 500;
             const dpr = Math.min(window.devicePixelRatio || 1, 2);
             canvas.width = CANVAS_SIZE * dpr;
@@ -707,11 +707,11 @@
             const cy = CANVAS_SIZE / 2;
             const outerRadius = 200;
             const innerRadius = 100;
-            const centerDiscRadius = 72;
+            const centerDiscRadius = 72; // 中间圆盘略小
 
             // ============ 持久化存储键 ============
-            const STORAGE_USED = 'demoress_lottery_used_v2';
-            const STORAGE_RESULT = 'demoress_lottery_result_v2';
+            const STORAGE_USED = 'demoress_lottery_used_v3';
+            const STORAGE_RESULT = 'demoress_lottery_result_v3';
 
             // ============ 奖品数据 ============
             const prizes = [
@@ -1052,7 +1052,7 @@
                 modalPrizeTitle.className = 'modal-prize-title' + (prize.isSpecial ? ' special' : '');
                 modalPrizeDetail.textContent = prize.detail;
 
-                // 根据奖品类型显示不同内容
+                // 根据奖品类型显示不同区域
                 if (prize.index === 5) { // 普惠奖
                     addressSection.style.display = 'none';
                     taobaoSection.style.display = 'block';
@@ -1072,13 +1072,42 @@
                 if (e.target === prizeModal) hidePrizeModal();
             });
 
-            // 收集表链接打开日志（便于追踪）
+            // ============ 自动复制奖品名称并跳转收集表 ============
             btnCollectLink.addEventListener('click', (e) => {
-                console.log('用户打开地址收集表', {
-                    prize: lastPrizeResult?.label,
-                    time: new Date().toLocaleString()
-                });
+                e.preventDefault(); // 阻止立即跳转
+                const prizeName = lastPrizeResult?.label || '未知奖品';
+                const collectUrl = btnCollectLink.getAttribute('href');
+
+                // 尝试复制到剪贴板
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(prizeName).then(() => {
+                        alert(`✅ 已自动复制奖品名称「${prizeName}」\n\n请在打开的收集表中，找到“中奖奖品”字段，长按 → 粘贴填入。`);
+                        window.open(collectUrl, '_blank');
+                    }).catch(() => {
+                        fallbackCopy(prizeName, collectUrl);
+                    });
+                } else {
+                    fallbackCopy(prizeName, collectUrl);
+                }
             });
+
+            function fallbackCopy(text, url) {
+                // 降级方案：创建临时文本框复制
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    alert(`✅ 已自动复制奖品名称「${text}」\n\n请在打开的收集表中粘贴。`);
+                } catch (err) {
+                    alert(`请手动填写奖品名称：${text}`);
+                }
+                document.body.removeChild(textarea);
+                window.open(url, '_blank');
+            }
 
             function triggerCelebration() {
                 const card = wheelCard;
@@ -1187,7 +1216,7 @@
                 }
             });
 
-            console.log('🌿 黛茂诗幸运大转盘 · 地址收集表已集成');
+            console.log('🌿 黛茂诗幸运大转盘 · 自动复制奖品名称已生效');
             console.log('📋 收集表链接: https://doc.weixin.qq.com/forms/ACUAWgdwAA4AegALgYvAOwCNJqrcxSlVf');
         })();
     </script>
