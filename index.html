@@ -588,11 +588,10 @@
     const cx = CANVAS_SIZE / 2, cy = CANVAS_SIZE / 2;
     const outerRadius = 200, innerRadius = 100, centerDiscRadius = 72;
 
-    const STORAGE_USED = 'demoress_lottery_used_final_v2';
-    const STORAGE_RESULT = 'demoress_lottery_result_final_v2';
-    const STORAGE_ADDRESS = 'demoress_address_submitted_final_v2';
+    const STORAGE_USED = 'demoress_lottery_used_final_v3';
+    const STORAGE_RESULT = 'demoress_lottery_result_final_v3';
+    const STORAGE_ADDRESS = 'demoress_address_submitted_final_v3';
 
-    // 统一的字体样式（完整字符串，避免被省略）
     const fontFamily = '"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif';
 
     const prizes = [
@@ -607,7 +606,7 @@
         { index:2, name:'二等奖', label:'二等奖', detail:'黛茂诗居享套装4件套', probability:0.02, isSpecial:false, choices:null },
         { index:3, name:'三等奖', label:'三等奖', detail:'黛茂诗居享套装3件套', probability:0.035, isSpecial:false, choices:null },
         { index:4, name:'四等奖', label:'四等奖', detail:'黛茂诗柑橘香洗手液', probability:0.05, isSpecial:false, choices:null },
-        { index:5, name:'普惠奖', label:'普惠奖', detail:'黛茂诗官方小程序商城明信单品满99-20优惠券', probability:0.881, isSpecial:false, choices:null }
+        { index:5, name:'普惠奖', label:'普惠奖', detail:'黛茂诗官方小程序商城明星单品满99-20优惠券', probability:0.881, isSpecial:false, choices:null }
     ];
 
     let currentRotation = 0, highlightIndex = -1, isSpinning = false, animationId = null;
@@ -699,7 +698,6 @@
         ctx.strokeStyle='#c8e0ca'; ctx.lineWidth=2.5; ctx.stroke();
         ctx.beginPath(); ctx.arc(cx,cy,centerDiscRadius-9,0,2*Math.PI); ctx.strokeStyle='rgba(180,200,182,0.45)'; ctx.lineWidth=1.5; ctx.setLineDash([8,12]); ctx.stroke(); ctx.setLineDash([]);
 
-        // 中间圆盘文字区域 —— 已修复字体设置
         let discText='点击抽奖', discSub='', discColor='#5a7d5c', fontSize=19, fontWeight='600';
         if(isSpinning){ discText='抽奖中'; discSub='...'; discColor='#8aa98d'; fontSize=18; }
         else if(highlightIdx>=0 && lastPrizeResult){
@@ -708,16 +706,15 @@
         }
         if(discSub){
             ctx.fillStyle = discColor;
-            ctx.font = `500 12px ${fontFamily}`;  // 修复：完整字体字符串
+            ctx.font = `500 12px ${fontFamily}`;
             ctx.textAlign='center'; ctx.textBaseline='middle';
             ctx.fillText(discSub, cx, cy-16);
         }
         ctx.fillStyle = discColor;
-        ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;  // 修复：完整字体字符串
+        ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.textAlign='center'; ctx.textBaseline='middle';
         ctx.fillText(discText, cx, cy + (discSub?6:0));
 
-        // 指针
         const pTipY=cy-outerRadius+2, pHeight=38, pHalf=18, pBaseY=pTipY-pHeight;
         ctx.beginPath(); ctx.moveTo(cx,pTipY+2); ctx.lineTo(cx-pHalf,pBaseY+2); ctx.lineTo(cx+pHalf,pBaseY+2); ctx.closePath(); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.fill();
         ctx.beginPath(); ctx.moveTo(cx,pTipY); ctx.lineTo(cx-pHalf,pBaseY); ctx.quadraticCurveTo(cx,pBaseY-6,cx+pHalf,pBaseY); ctx.closePath();
@@ -849,13 +846,100 @@
     canvasWrap.onclick=()=>{ if(!isSpinning && !hasUsed) handleDraw(); };
     btnDraw.onclick=()=>handleDraw();
 
+    // 完整活动规则内容
     const rulesText = `
-        <h3>一、活动时间</h3><p>2026年5月20日 00:00 - 2026年8月20日 23:59</p>
-        <h3>二、活动形式</h3><p>活动期间，用户扫码添加【DEMORES 黛茂诗】官方企业微信，即可获得1次抽奖转盘参与机会。每位用户仅限参与1次抽奖，中奖结果以系统实时显示为准。</p>
-        <h3>三、奖品设置</h3><p>本次活动共设置6个奖项，奖品数量有限，抽完即止：</p>
-        <ul><li><strong>特等奖</strong> 共4名（二选一）…</li><li><strong>一等奖</strong> 共10名（二选一）…</li><li><strong>二等奖</strong> 20名：黛茂诗居享套装4件套</li><li><strong>三等奖</strong> 35名：黛茂诗居享套装3件套</li><li><strong>四等奖</strong> 50名：黛茂诗柑橘香洗手液</li><li><strong>普惠奖</strong> 不限量：黛茂诗官方小程序商城明信单品满99-20优惠券</li></ul>
-        <h3>四、奖品兑换及使用说明</h3><p>中奖用户需在7天内联系企业微信客服完成兑奖登记，详情请添加客服咨询。</p>
-        <h3>五、其他</h3><p>最终解释权归DEMORES黛茂诗品牌所有。</p>
+        <h3>一、活动时间</h3>
+        <p>2026年5月20日 00:00 - 2026年8月20日 23:59</p>
+        <h3>二、活动形式</h3>
+        <p>活动期间，用户扫码添加【DEMORES 黛茂诗】官方企业微信，即可获得1次抽奖转盘参与机会。</p>
+        <p>每位用户仅限参与1次抽奖，中奖结果以系统实时显示为准。</p>
+        <h3>三、奖品设置</h3>
+        <p>本次活动共设置6个奖项，奖品数量有限，抽完即止：</p>
+        <ul>
+          <li><strong>特等奖</strong> 共4名（二选一）<br>① 黛茂诗全系列正装礼盒（洗发水+去角质啫喱+发膜+精华液）×2份<br>② 黛茂诗酒店（豫园店）豪华房免房券×2张</li>
+          <li><strong>一等奖</strong> 共10名（二选一）<br>① 黛茂诗明星单品正装1瓶（乌斯玛草控油洗发水）×5瓶<br>② 黛茂诗酒店（豫园店）350元房晚兑换券×5张</li>
+          <li><strong>二等奖</strong> 20名：黛茂诗居享套装4件套</li>
+          <li><strong>三等奖</strong> 35名：黛茂诗居享套装3件套</li>
+          <li><strong>四等奖</strong> 50名：黛茂诗柑橘香洗手液</li>
+          <li><strong>普惠奖</strong> 不限量：黛茂诗官方小程序商城明星单品满99-20优惠券</li>
+        </ul>
+        <h3>四、奖品记录查询</h3>
+        <p>用户可在抽奖转盘页面点击“我的奖品”，实时查看个人中奖记录及奖品状态。</p>
+        <h3>五、奖品兑换及使用说明</h3>
+        <p><strong>（一）通用兑奖规则</strong><br>
+        所有中奖用户需在中奖之日起7天内，通过已添加的黛茂诗官方企业微信，发送“兑奖+中奖截图+姓名+手机号+收货地址”完成兑奖登记，逾期未登记视为自动放弃中奖资格。<br>
+        洗护类产品及实体房券将在用户完成兑奖登记后7个工作日内通过快递寄出。<br>
+        小程序商城优惠券将以电子券码形式发送至用户预留的手机号，券码有效期及使用规则以券面说明为准。<br>
+        所有奖品不可兑换现金，不可转售，不可更换为其他奖品。</p>
+        <p><strong>（二）黛茂诗酒店房券专属使用规则</strong></p>
+        <p><strong>豪华房免房券</strong><br>
+        一、券面权益说明<br>
+        本券为官方抽奖活动专属免费奖品，不折现、不找零、不可兑换现金或其他礼品。<br>
+        适用权益：凭本券可免费兑换黛茂诗酒店（上海豫园老西门地铁站店）1晚豪华房型住宿（标准大床房/双床房，随机安排），不含早餐（如需加早可按酒店前台价购买）。<br>
+        有效期：自中奖之日起90天内有效，过期自动作废，不予延期或补发。<br>
+        预约规则：需提前至少3天通过酒店官方客服微信预约，预约成功后以酒店确认信息为准。<br>
+        二、使用限制<br>
+        以下日期不可使用，不接受任何形式的预约：<br>
+        ・所有法定节假日：<br>
+        2026年6月19日-6月20日（端午节假期）<br>
+        后续中秋、国庆等节假日自动顺延不开放<br>
+        预约制度<br>
+        ・本券每日开放2间免房名额，先约先得，约满即止<br>
+        ・用户可通过客服微信提前查询未来7天的可预约库存情况<br>
+        兑换与使用限制<br>
+        ・本券仅限中奖人本人使用，入住时需出示中奖凭证、核销码及本人身份证，人证不符酒店有权拒绝接待<br>
+        ・每间客房每次仅限使用1张券，不可叠加使用，不可拆分使用<br>
+        ・同一用户仅限中奖1次，不可重复参与本活动<br>
+        ・本券不可与酒店其他任何优惠、折扣、套餐或会员权益叠加使用<br>
+        三、预约与核销流程<br>
+        完成兑奖登记后，可随时向客服发送“查询+日期”获取当日可预约库存<br>
+        确认有库存后，向客服提交“入住日期+入住人姓名+身份证号+联系电话”<br>
+        酒店将在24小时内回复预约结果，预约成功后将发送电子确认单<br>
+        入住当日凭本人身份证及电子确认单办理入住，无需支付任何房费<br>
+        退改政策：<br>
+        未预约：可在有效期内随时预约，过期作废。<br>
+        已预约：不可取消、不可改期，未按时入住视为自动放弃权益。<br>
+        四、补充条款<br>
+        酒店有权根据当日实际房态调整可预约日期，高峰时段优先保障付费客人入住。<br>
+        如遇不可抗力（如疫情、自然灾害等）导致无法入住，可凭相关证明申请延期1次，延期时长为30天。<br>
+        任何通过非官方渠道获取、倒卖本券的行为，酒店有权直接作废该券并拒绝提供服务。<br>
+        本券最终解释权归黛茂诗酒店（上海豫园老西门地铁站店）所有。</p>
+        <p><strong>350元房晚兑换券</strong><br>
+        一、券面权益说明<br>
+        本券为抽奖活动专属奖品，不收取任何费用，不折现、不找零、不可兑换现金或其他礼品。<br>
+        适用权益：凭本券可兑换黛茂诗酒店（上海豫园老西门地铁站店）1晚豪华房型住宿（标准大床房/双床房，随机安排），不含早餐（如需加早可按酒店前台价购买）。<br>
+        有效期：自中奖之日起90天内有效，过期自动作废，不予延期或补发。<br>
+        预约规则：需提前3天通过酒店官方客服微信预约，预约成功后不可更改或取消。<br>
+        二、使用限制<br>
+        以下日期不可使用，不接受任何形式的预约：<br>
+        ・所有法定节假日：<br>
+        2026年6月19日-6月20日（端午节假期）<br>
+        后续中秋、国庆等节假日自动顺延不可使用<br>
+        本券仅限中奖人本人使用，不可转让、不可转赠、不可售卖，入住时需出示中奖凭证及本人身份证。<br>
+        每间客房每次仅限使用1张券，不可叠加使用。<br>
+        每日券兑换上限为2间夜，超出则当日无法预约。<br>
+        三、预约与核销流程<br>
+        完成兑奖登记后，通过客服微信提交入住日期及入住人信息，酒店将在24小时内回复预约结果。<br>
+        入住时凭本人身份证及核销码办理入住，差价部分在前台支付。<br>
+        退改政策：<br>
+        未预约：可在有效期内随时预约，过期作废。<br>
+        已预约：不可取消、不可改期，未按时入住视为自动放弃权益。<br>
+        四、补充条款<br>
+        本券不可与酒店其他任何优惠、折扣、套餐或会员权益叠加使用。<br>
+        酒店有权根据当日实际房态调整可预约日期，高峰时段优先保障付费客人入住。<br>
+        如遇不可抗力（如疫情、自然灾害等）导致无法入住，可凭相关证明申请延期1次，延期时长为30天。<br>
+        任何通过非官方渠道获取、倒卖本券的行为，酒店有权直接作废该券并拒绝提供服务。<br>
+        本券最终解释权归黛茂诗酒店（上海豫园老西门地铁站店）所有。</p>
+        <h3>六、会员专属说明</h3>
+        <p>本次活动为黛茂诗会员专属福利活动，仅限黛茂诗会员参与。添加【DEMORES 黛茂诗】官方企业微信即自动成为黛茂诗会员，获得活动参与资格。</p>
+        <h3>七、同一用户认定</h3>
+        <p>手机号码、手机设备、身份证信息、微信账号等一项或多项信息相同，或存在其他合理情形的，将被认定为同一用户。同一用户仅限参与一次活动。</p>
+        <h3>八、违规处理</h3>
+        <p>用户不得以不正当、不诚信的方式参与活动，包括但不限于批量注册/使用账户、利用作弊工具参与活动、恶意套取活动权益、虚假交易、刷单、提交虚假交易信息、恶意退单等。如有上述行为，黛茂诗有权撤销用户参与抽奖的资格，并有权回收用户已经获得的全部权益（包括追偿已使用部分）。</p>
+        <h3>九、其他说明</h3>
+        <p>如因用户提供的收货信息错误、不完整导致奖品无法送达或丢失，责任由用户自行承担。<br>
+        如遇不可抗力因素导致活动无法正常进行，黛茂诗有权暂停、终止或修改本活动。<br>
+        本次活动所有规则的最终解释权归黛茂诗品牌所有。</p>
     `;
     document.getElementById('rulesContent').innerHTML = rulesText;
     document.getElementById('rulesBtn').onclick = () => rulesModal.classList.add('active');
