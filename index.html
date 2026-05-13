@@ -59,7 +59,6 @@
             width: 420px; height: 420px;
             background: radial-gradient(circle, rgba(200, 168, 78, 0.07) 0%, transparent 70%);
         }
-
         .main-container {
             position: relative;
             z-index: 1;
@@ -70,7 +69,6 @@
             align-items: center;
             gap: 22px;
         }
-
         .header {
             text-align: center;
             display: flex;
@@ -119,7 +117,6 @@
             font-weight: 500;
         }
         .used-message.show { display: inline-block; }
-
         .wheel-card {
             background: var(--card-bg);
             border-radius: 24px;
@@ -137,7 +134,6 @@
         .wheel-card.has-result {
             box-shadow: 0 20px 56px rgba(46, 125, 50, 0.18), 0 0 0 1px rgba(129, 199, 132, 0.25);
         }
-
         .wheel-canvas-wrap {
             position: relative;
             width: 100%;
@@ -175,7 +171,6 @@
             0%,100%{ opacity:0.5; transform:translateX(-50%) scale(1); }
             50%{ opacity:1; transform:translateX(-50%) scale(1.5); }
         }
-
         .result-area {
             width: 100%;
             min-height: 52px;
@@ -211,7 +206,6 @@
             cursor:pointer; transition:0.2s; background:rgba(129,199,132,0.08);
         }
         .btn-open-modal:hover { background:rgba(129,199,132,0.2); border-color:#2e7d32; }
-
         .btn-draw {
             display: inline-flex;
             align-items:center;
@@ -234,9 +228,7 @@
         .btn-draw:disabled { background:#bdbdbd; cursor:not-allowed; transform:none; }
         .btn-draw .btn-icon { animation:btnIconBounce 2s infinite; }
         @keyframes btnIconBounce { 0%,100%{ transform:translateY(0); } 50%{ transform:translateY(-4px); } }
-
         .prize-hint { font-size:0.72rem; color:#999; text-align:center; opacity:0.7; }
-
         .bottom-rules-btn {
             display: inline-flex;
             align-items: center;
@@ -260,7 +252,6 @@
             border-color: #66bb6a;
             box-shadow: 0 4px 12px rgba(46,125,50,0.15);
         }
-
         /* 模态弹窗 */
         .modal-overlay {
             position:fixed;
@@ -309,7 +300,6 @@
             justify-content:center;
         }
         .modal-close:hover { color:#2e7d32; background:#d9eddf; }
-
         .modal-prize-title { font-size:1.5rem; font-weight:700; color:#1b5e20; margin-bottom:8px; }
         .modal-prize-title.special { color:#b8860b; }
         .modal-prize-detail { font-size:0.95rem; color:#5a7d5c; margin-bottom:12px; white-space:pre-line; line-height:1.6; }
@@ -337,7 +327,6 @@
         }
         .choice-btn:hover { border-color:#66bb6a; background:#e8f5e9; }
         .choice-btn.selected { border-color:#2e7d32; background:#2e7d32; color:#fff; box-shadow:0 4px 12px rgba(46,125,50,0.3); }
-
         .qr-container {
             display:flex;
             flex-direction:column;
@@ -355,7 +344,6 @@
             object-fit:contain;
         }
         .qr-hint { font-size:0.9rem; color:#2e7d32; font-weight:500; }
-
         .address-section {
             text-align:left;
             margin-top:12px;
@@ -423,7 +411,6 @@
             margin-top:10px;
             font-size:0.9rem;
         }
-
         /* 规则弹窗 */
         .rules-modal-content {
             text-align:left;
@@ -438,7 +425,6 @@
         .rules-modal-content p { margin-bottom:8px; }
         .rules-modal-content ul { padding-left:20px; margin-bottom:10px; }
         .rules-modal-content li { margin-bottom:4px; }
-
         @media (max-width:480px) {
             .main-container { gap:14px; }
             .wheel-card { padding:12px 8px 16px; border-radius:18px; }
@@ -460,7 +446,6 @@
         <p class="subtitle">转动惊喜，解锁专属愈养好礼</p>
         <span class="used-message" id="usedMessage">🎉 您已参与过抽奖，每位用户仅限一次</span>
     </div>
-
     <div class="wheel-card" id="wheelCard">
         <div class="wheel-canvas-wrap" id="canvasWrap">
             <div class="pointer-glow"></div>
@@ -472,10 +457,8 @@
         <button class="btn-draw" id="btnDraw">🎯 开始抽奖</button>
         <p class="prize-hint">特等0.4% / 一等1% / 二等2% / 三等3.5% / 四等5% / 普惠88.1%</p>
     </div>
-
     <button class="bottom-rules-btn" id="rulesBtn">📜 查看活动规则</button>
 </div>
-
 <!-- 领奖弹窗 -->
 <div class="modal-overlay" id="prizeModal">
     <div class="modal-dialog">
@@ -521,7 +504,6 @@
         </div>
     </div>
 </div>
-
 <!-- 小程序码弹窗 -->
 <div class="modal-overlay" id="miniappQrModal">
     <div class="modal-dialog">
@@ -538,7 +520,6 @@
         </p>
     </div>
 </div>
-
 <!-- 活动规则弹窗 -->
 <div class="modal-overlay" id="rulesModal">
     <div class="modal-dialog" style="max-width:500px; text-align:left;">
@@ -547,7 +528,6 @@
         <div class="rules-modal-content" id="rulesContent"></div>
     </div>
 </div>
-
 <script>
 (function() {
     const canvas = document.getElementById('wheelCanvas');
@@ -575,9 +555,7 @@
     const rulesModal = document.getElementById('rulesModal');
     const rulesClose = document.getElementById('rulesClose');
     const usedMessage = document.getElementById('usedMessage');
-
     const FEISHU_WEBHOOK = 'https://open.feishu.cn/open-apis/bot/v2/hook/ddaa38ab-3fb0-4d0f-87b1-b4ffa9b0fd6f';
-
     const CANVAS_SIZE = 500;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = CANVAS_SIZE * dpr;
@@ -587,52 +565,43 @@
     ctx.scale(dpr, dpr);
     const cx = CANVAS_SIZE / 2, cy = CANVAS_SIZE / 2;
     const outerRadius = 200, innerRadius = 100, centerDiscRadius = 72;
-
     const STORAGE_USED = 'demoress_lottery_used_final_v3';
     const STORAGE_RESULT = 'demoress_lottery_result_final_v3';
     const STORAGE_ADDRESS = 'demoress_address_submitted_final_v3';
-
     const fontFamily = '"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif';
-
     const prizes = [
         { index:0, name:'特等奖', label:'特等奖',
-          detail:'二选一：① 黛茂诗全系列正装礼盒（洗发水+去角质啫喱+发膜+精华液） | ② 黛茂诗酒店（豫园店）豪华房免房券*1',
+          detail:'二选一：① 黛茂诗全系列正装礼盒（洗发水 + 去角质啫喱 + 发膜 + 精华液）×1份 | ② 黛茂诗酒店（豫园店）豪华房免房券×1张',
           probability:0.004, isSpecial:true,
-          choices:['全系列正装礼盒', '豪华房免房券*1'] },
+          choices:['全系列正装礼盒', '豪华房免房券×1张'] },
         { index:1, name:'一等奖', label:'一等奖',
-          detail:'二选一：① 黛茂诗明星单品正装1瓶（乌斯玛草控油洗发水） | ② 黛茂诗酒店（豫园店）350元房晚兑换券*1',
+          detail:'二选一：① 黛茂诗明星单品正装（乌斯玛草控油洗发水）×1瓶 | ② 黛茂诗酒店（豫园店）豪华房350元房晚购买券×1张',
           probability:0.01, isSpecial:false,
-          choices:['明星单品洗发水', '350元房晚兑换券*1'] },
+          choices:['明星单品洗发水', '黛茂诗酒店（豫园店）豪华房350元房晚购买券×1张'] },
         { index:2, name:'二等奖', label:'二等奖', detail:'黛茂诗居享套装4件套', probability:0.02, isSpecial:false, choices:null },
         { index:3, name:'三等奖', label:'三等奖', detail:'黛茂诗居享套装3件套', probability:0.035, isSpecial:false, choices:null },
         { index:4, name:'四等奖', label:'四等奖', detail:'黛茂诗柑橘香洗手液', probability:0.05, isSpecial:false, choices:null },
         { index:5, name:'普惠奖', label:'普惠奖', detail:'黛茂诗官方小程序商城明星单品满99-20优惠券', probability:0.881, isSpecial:false, choices:null }
     ];
-
     let currentRotation = 0, highlightIndex = -1, isSpinning = false, animationId = null;
     let lastPrizeResult = null, selectedChoice = null;
     let hasUsed = localStorage.getItem(STORAGE_USED) === '1';
     let addressSubmitted = localStorage.getItem(STORAGE_ADDRESS) === '1';
     let savedPrizeIndex = parseInt(localStorage.getItem(STORAGE_RESULT));
-
     if (hasUsed && !isNaN(savedPrizeIndex) && savedPrizeIndex >= 0 && savedPrizeIndex < prizes.length) {
         lastPrizeResult = prizes[savedPrizeIndex];
         highlightIndex = savedPrizeIndex;
         currentRotation = getRotationForIndex(savedPrizeIndex);
     }
-
     function getRotationForIndex(i) { const sector = i * (Math.PI/3); return ((2*Math.PI)-sector) % (2*Math.PI); }
-
     const COLOR_LIGHT_GREEN_1 = '#d9eddf', COLOR_LIGHT_GREEN_2 = '#cfe5d5';
     const COLOR_HIGHLIGHT = '#2e7d32', COLOR_SEPARATOR = 'rgba(255,255,255,0.7)';
     const COLOR_TEXT = '#3d5a3f', COLOR_TEXT_HIGHLIGHT = '#ffffff';
-
     function determinePrizeIndex() {
         const rand = Math.random()*100; let cum=0;
         for(let i=0;i<prizes.length;i++){ cum += prizes[i].probability*100; if(rand<cum) return i; }
         return prizes.length-1;
     }
-
     function getTargetRotation(targetIndex, startRotation) {
         const sectorCenterFromTop = targetIndex * (Math.PI/3);
         const base = ((2*Math.PI)-sectorCenterFromTop)%(2*Math.PI);
@@ -640,9 +609,7 @@
         const extra = 5+Math.floor(Math.random()*4);
         return startRotation + delta + extra*2*Math.PI;
     }
-
     function easeOutQuart(t) { return 1-Math.pow(1-t,4); }
-
     function drawWheel(rotation, highlightIdx) {
         ctx.clearRect(0,0,CANVAS_SIZE,CANVAS_SIZE);
         const num = prizes.length, sectorAngle = (2*Math.PI)/num;
@@ -674,7 +641,6 @@
         }
         ctx.beginPath(); ctx.arc(cx,cy,outerRadius,0,2*Math.PI); ctx.strokeStyle='rgba(180,200,182,0.6)'; ctx.lineWidth=2.5; ctx.stroke();
         ctx.beginPath(); ctx.arc(cx,cy,innerRadius,0,2*Math.PI); ctx.strokeStyle='rgba(180,200,182,0.5)'; ctx.lineWidth=2; ctx.stroke();
-
         for(let i=0;i<num;i++) {
             const baseCenter = -Math.PI/2 + i*sectorAngle;
             const textAngle = baseCenter+rotation;
@@ -690,14 +656,12 @@
             ctx.fillText(prizes[i].label, flip ? -textRadius : textRadius, 0);
             ctx.restore();
         }
-
         ctx.beginPath(); ctx.arc(cx+2,cy+3,centerDiscRadius,0,2*Math.PI); ctx.fillStyle='rgba(0,0,0,0.08)'; ctx.fill();
         const discGrad=ctx.createRadialGradient(cx-15,cy-20,centerDiscRadius*0.1,cx,cy,centerDiscRadius);
         discGrad.addColorStop(0,'#ffffff'); discGrad.addColorStop(0.85,'#f8faf8'); discGrad.addColorStop(1,'#eef5ef');
         ctx.beginPath(); ctx.arc(cx,cy,centerDiscRadius,0,2*Math.PI); ctx.fillStyle=discGrad; ctx.fill();
         ctx.strokeStyle='#c8e0ca'; ctx.lineWidth=2.5; ctx.stroke();
         ctx.beginPath(); ctx.arc(cx,cy,centerDiscRadius-9,0,2*Math.PI); ctx.strokeStyle='rgba(180,200,182,0.45)'; ctx.lineWidth=1.5; ctx.setLineDash([8,12]); ctx.stroke(); ctx.setLineDash([]);
-
         let discText='点击抽奖', discSub='', discColor='#5a7d5c', fontSize=19, fontWeight='600';
         if(isSpinning){ discText='抽奖中'; discSub='...'; discColor='#8aa98d'; fontSize=18; }
         else if(highlightIdx>=0 && lastPrizeResult){
@@ -714,7 +678,6 @@
         ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.textAlign='center'; ctx.textBaseline='middle';
         ctx.fillText(discText, cx, cy + (discSub?6:0));
-
         const pTipY=cy-outerRadius+2, pHeight=38, pHalf=18, pBaseY=pTipY-pHeight;
         ctx.beginPath(); ctx.moveTo(cx,pTipY+2); ctx.lineTo(cx-pHalf,pBaseY+2); ctx.lineTo(cx+pHalf,pBaseY+2); ctx.closePath(); ctx.fillStyle='rgba(0,0,0,0.18)'; ctx.fill();
         ctx.beginPath(); ctx.moveTo(cx,pTipY); ctx.lineTo(cx-pHalf,pBaseY); ctx.quadraticCurveTo(cx,pBaseY-6,cx+pHalf,pBaseY); ctx.closePath();
@@ -722,7 +685,6 @@
         ctx.strokeStyle='#1b5e20'; ctx.lineWidth=2; ctx.stroke();
         ctx.beginPath(); ctx.arc(cx,pBaseY+8,4,0,2*Math.PI); ctx.fillStyle='#fdfdfd'; ctx.fill(); ctx.strokeStyle='rgba(0,0,0,0.2)'; ctx.lineWidth=1; ctx.stroke();
     }
-
     function spinWheel(targetIndex) {
         if(isSpinning || hasUsed) return;
         isSpinning=true; highlightIndex=-1; lastPrizeResult=null; selectedChoice=null;
@@ -751,7 +713,6 @@
         }
         animationId=requestAnimationFrame(animate);
     }
-
     function updateResultArea(prize) {
         if(!prize){ resultArea.innerHTML='<span style="color:#b0bdb1;font-size:0.85rem;">点击转盘或下方按钮开始抽奖</span>'; return; }
         const cls=prize.isSpecial?' special':'';
@@ -761,7 +722,6 @@
         btn.onclick=(e)=>{e.stopPropagation(); if(lastPrizeResult) showPrizeModal(lastPrizeResult);};
         wrapper.appendChild(btn); resultArea.innerHTML=''; resultArea.appendChild(wrapper);
     }
-
     function showPrizeModal(prize) {
         modalPrizeTitle.textContent=prize.label;
         modalPrizeTitle.className='modal-prize-title'+(prize.isSpecial?' special':'');
@@ -794,15 +754,12 @@
         }
         prizeModal.classList.add('active');
     }
-
     function hidePrizeModal() { prizeModal.classList.remove('active'); }
     modalClose.onclick=hidePrizeModal;
     prizeModal.onclick=(e)=>{ if(e.target===prizeModal) hidePrizeModal(); };
-
     if(btnOpenMiniappQr) btnOpenMiniappQr.onclick = () => { miniappQrModal.classList.add('active'); };
     if(miniappQrClose) miniappQrClose.onclick = () => miniappQrModal.classList.remove('active');
     if(miniappQrModal) miniappQrModal.onclick = (e) => { if(e.target===miniappQrModal) miniappQrModal.classList.remove('active'); };
-
     btnSubmitAddress.onclick = () => {
         if(addressSubmitted) return;
         const name = receiverName.value.trim(), phone = receiverPhone.value.trim(), addr = receiverAddress.value.trim();
@@ -827,7 +784,6 @@
             }
         }).catch(()=>{ alert('网络错误'); btnSubmitAddress.disabled=false; btnSubmitAddress.textContent='提交地址'; });
     };
-
     function triggerCelebration() {
         const rect=wheelCard.getBoundingClientRect(); const cx=rect.left+rect.width/2, cy=rect.top+rect.height/2;
         for(let i=0;i<30;i++){
@@ -838,26 +794,24 @@
             setTimeout(()=>p.remove(),1300);
         }
     }
-
     function handleDraw(){
         if(isSpinning || hasUsed){ if(hasUsed) alert('每位用户仅限抽奖一次，感谢参与。'); return; }
         const targetIndex=determinePrizeIndex(); spinWheel(targetIndex);
     }
     canvasWrap.onclick=()=>{ if(!isSpinning && !hasUsed) handleDraw(); };
     btnDraw.onclick=()=>handleDraw();
-
     // 完整活动规则内容
     const rulesText = `
-        <h3>一、活动时间</h3>
-        <p>2026年5月20日 00:00 - 2026年8月20日 23:59</p>
+        <h3>一、活动截止时间</h3>
+        <p>2026年8月20日 23:59</p>
         <h3>二、活动形式</h3>
         <p>活动期间，用户扫码添加【DEMORES 黛茂诗】官方企业微信，即可获得1次抽奖转盘参与机会。</p>
         <p>每位用户仅限参与1次抽奖，中奖结果以系统实时显示为准。</p>
         <h3>三、奖品设置</h3>
         <p>本次活动共设置6个奖项，奖品数量有限，抽完即止：</p>
         <ul>
-          <li><strong>特等奖</strong> 共4名（二选一）<br>① 黛茂诗全系列正装礼盒（洗发水+去角质啫喱+发膜+精华液）×2份<br>② 黛茂诗酒店（豫园店）豪华房免房券×2张</li>
-          <li><strong>一等奖</strong> 共10名（二选一）<br>① 黛茂诗明星单品正装1瓶（乌斯玛草控油洗发水）×5瓶<br>② 黛茂诗酒店（豫园店）350元房晚兑换券×5张</li>
+          <li><strong>特等奖</strong> 共 4 名（二选一）<br>① 黛茂诗全系列正装礼盒（洗发水 + 去角质啫喱 + 发膜 + 精华液）×1份<br>② 黛茂诗酒店（豫园店）豪华房免房券 ×1 张</li>
+          <li><strong>一等奖</strong> 共 10 名（二选一）<br>① 黛茂诗明星单品正装（乌斯玛草控油洗发水）×1瓶<br>② 黛茂诗酒店（豫园店）豪华房350 元房晚购买券 ×1 张</li>
           <li><strong>二等奖</strong> 20名：黛茂诗居享套装4件套</li>
           <li><strong>三等奖</strong> 35名：黛茂诗居享套装3件套</li>
           <li><strong>四等奖</strong> 50名：黛茂诗柑橘香洗手液</li>
@@ -872,64 +826,30 @@
         小程序商城优惠券将以电子券码形式发送至用户预留的手机号，券码有效期及使用规则以券面说明为准。<br>
         所有奖品不可兑换现金，不可转售，不可更换为其他奖品。</p>
         <p><strong>（二）黛茂诗酒店房券专属使用规则</strong></p>
-        <p><strong>豪华房免房券</strong><br>
-        一、券面权益说明<br>
-        本券为官方抽奖活动专属免费奖品，不折现、不找零、不可兑换现金或其他礼品。<br>
-        适用权益：凭本券可免费兑换黛茂诗酒店（上海豫园老西门地铁站店）1晚豪华房型住宿（标准大床房/双床房，随机安排），不含早餐（如需加早可按酒店前台价购买）。<br>
-        有效期：自中奖之日起90天内有效，过期自动作废，不予延期或补发。<br>
-        预约规则：需提前至少3天通过酒店官方客服微信预约，预约成功后以酒店确认信息为准。<br>
-        二、使用限制<br>
-        以下日期不可使用，不接受任何形式的预约：<br>
-        ・所有法定节假日：<br>
-        2026年6月19日-6月20日（端午节假期）<br>
-        后续中秋、国庆等节假日自动顺延不开放<br>
-        预约制度<br>
-        ・本券每日开放2间免房名额，先约先得，约满即止<br>
-        ・用户可通过客服微信提前查询未来7天的可预约库存情况<br>
-        兑换与使用限制<br>
-        ・本券仅限中奖人本人使用，入住时需出示中奖凭证、核销码及本人身份证，人证不符酒店有权拒绝接待<br>
-        ・每间客房每次仅限使用1张券，不可叠加使用，不可拆分使用<br>
-        ・同一用户仅限中奖1次，不可重复参与本活动<br>
-        ・本券不可与酒店其他任何优惠、折扣、套餐或会员权益叠加使用<br>
-        三、预约与核销流程<br>
-        完成兑奖登记后，可随时向客服发送“查询+日期”获取当日可预约库存<br>
-        确认有库存后，向客服提交“入住日期+入住人姓名+身份证号+联系电话”<br>
-        酒店将在24小时内回复预约结果，预约成功后将发送电子确认单<br>
-        入住当日凭本人身份证及电子确认单办理入住，无需支付任何房费<br>
-        退改政策：<br>
-        未预约：可在有效期内随时预约，过期作废。<br>
-        已预约：不可取消、不可改期，未按时入住视为自动放弃权益。<br>
-        四、补充条款<br>
-        酒店有权根据当日实际房态调整可预约日期，高峰时段优先保障付费客人入住。<br>
-        如遇不可抗力（如疫情、自然灾害等）导致无法入住，可凭相关证明申请延期1次，延期时长为30天。<br>
-        任何通过非官方渠道获取、倒卖本券的行为，酒店有权直接作废该券并拒绝提供服务。<br>
-        本券最终解释权归黛茂诗酒店（上海豫园老西门地铁站店）所有。</p>
-        <p><strong>350元房晚兑换券</strong><br>
-        一、券面权益说明<br>
-        本券为抽奖活动专属奖品，不收取任何费用，不折现、不找零、不可兑换现金或其他礼品。<br>
-        适用权益：凭本券可兑换黛茂诗酒店（上海豫园老西门地铁站店）1晚豪华房型住宿（标准大床房/双床房，随机安排），不含早餐（如需加早可按酒店前台价购买）。<br>
-        有效期：自中奖之日起90天内有效，过期自动作废，不予延期或补发。<br>
-        预约规则：需提前3天通过酒店官方客服微信预约，预约成功后不可更改或取消。<br>
-        二、使用限制<br>
-        以下日期不可使用，不接受任何形式的预约：<br>
-        ・所有法定节假日：<br>
-        2026年6月19日-6月20日（端午节假期）<br>
-        后续中秋、国庆等节假日自动顺延不可使用<br>
-        本券仅限中奖人本人使用，不可转让、不可转赠、不可售卖，入住时需出示中奖凭证及本人身份证。<br>
-        每间客房每次仅限使用1张券，不可叠加使用。<br>
-        每日券兑换上限为2间夜，超出则当日无法预约。<br>
-        三、预约与核销流程<br>
-        完成兑奖登记后，通过客服微信提交入住日期及入住人信息，酒店将在24小时内回复预约结果。<br>
-        入住时凭本人身份证及核销码办理入住，差价部分在前台支付。<br>
-        退改政策：<br>
-        未预约：可在有效期内随时预约，过期作废。<br>
-        已预约：不可取消、不可改期，未按时入住视为自动放弃权益。<br>
-        四、补充条款<br>
-        本券不可与酒店其他任何优惠、折扣、套餐或会员权益叠加使用。<br>
-        酒店有权根据当日实际房态调整可预约日期，高峰时段优先保障付费客人入住。<br>
-        如遇不可抗力（如疫情、自然灾害等）导致无法入住，可凭相关证明申请延期1次，延期时长为30天。<br>
-        任何通过非官方渠道获取、倒卖本券的行为，酒店有权直接作废该券并拒绝提供服务。<br>
-        本券最终解释权归黛茂诗酒店（上海豫园老西门地铁站店）所有。</p>
+        <p><strong>黛茂诗酒店豪华房免房券</strong><br>
+        <em>DEMORES Hotel Deluxe Room Complimentary Voucher</em><br><br>
+        <strong>使用说明：</strong><br>
+        <em>OPERATION INSTRUCTIONS</em><br>
+        持本券免费体验黛茂诗酒店（上海豫园老西门地铁站店）豪华房房型一间夜<br>
+        不可用于店内餐饮、商品等非房费消费<br>
+        使用本券需在酒店前台办理入住手续时出示（退房时出示无效）<br>
+        本券在法定节假日期间不可使用、入住前需提前三天联系酒店客服进行预约<br>
+        本券不可与其他优惠同时享用，不能兑换现金、不开具发票、遗失不补<br>
+        黛茂诗酒店（上海豫园老西门地铁站店）保留最终解释权<br>
+        地址：上海市黄浦区中华路1465号<br>
+        酒店电话：+86-21-63687799</p>
+        <p><strong>黛茂诗酒店豪华房350元房晚购买券</strong><br>
+        <em>DEMORES Hotel Deluxe Room – 350 RMB Room Night Purchase Voucher</em><br><br>
+        <strong>使用说明：</strong><br>
+        <em>OPERATION INSTRUCTIONS</em><br>
+        持本券并支付350元，即可体验黛茂诗酒店（上海豫园老西门地铁站店）豪华房房型一间夜（大床房、双床房随机安排，不可指定）。<br>
+        不可用于店内餐饮、商品等非房费消费<br>
+        使用本券需在酒店前台办理入住手续时出示（退房时出示无效）<br>
+        本券在法定节假日期间不可使用、入住前需提前三天联系酒店客服进行预约<br>
+        本券不可与其他优惠同时享用，不能兑换现金、不开具发票、遗失不补<br>
+        黛茂诗酒店（上海豫园老西门地铁站店）保留最终解释权<br>
+        地址：上海市黄浦区中华路1465号<br>
+        酒店电话：+86-21-63687799</p>
         <h3>六、会员专属说明</h3>
         <p>本次活动为黛茂诗会员专属福利活动，仅限黛茂诗会员参与。添加【DEMORES 黛茂诗】官方企业微信即自动成为黛茂诗会员，获得活动参与资格。</p>
         <h3>七、同一用户认定</h3>
@@ -945,7 +865,6 @@
     document.getElementById('rulesBtn').onclick = () => rulesModal.classList.add('active');
     rulesClose.onclick = () => rulesModal.classList.remove('active');
     rulesModal.onclick = (e) => { if(e.target===rulesModal) rulesModal.classList.remove('active'); };
-
     if(hasUsed && lastPrizeResult) {
         usedMessage.classList.add('show');
         btnDraw.disabled = true;
@@ -958,7 +877,6 @@
         btnDraw.disabled = false;
         btnDraw.innerHTML = '🎯 开始抽奖';
     }
-
     window.addEventListener('resize', () => { drawWheel(currentRotation, highlightIndex); });
 })();
 </script>
